@@ -1,0 +1,31 @@
+name: Docker Image CI
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout Repository
+    - uses: actions/checkout@v4
+    - name : Set up Docker Buildx
+    uses: docker/setup-build-action@v2
+    
+    - name: Log in to Docker Hub
+    run echo
+
+    - name: Build and Push Docker image
+    run : |
+    docker build -t docker_todoapp .
+    push docker_todoapp
+
+    deploy:
+    needs: build
+    runs-on ubuntu-latest
+    steps:
+    -name: Deploy to Server
+    uses
